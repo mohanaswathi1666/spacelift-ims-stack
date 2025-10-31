@@ -11,7 +11,7 @@ variable "vpc_cidr" {
 variable "vpc_name" {
   description = "Name of the VPC"
   type        = string
-  default     = "Terraform-VPC"
+  default     = "Terraform-VPC-Assessment3"
 }
 variable "subnet_cidr" {
   description = "CIDR block for the public subnet"
@@ -21,7 +21,7 @@ variable "subnet_cidr" {
 variable "subnet_name" {
   description = "Name of the public subnet"
   type        = string
-  default     = "Terraform-public-subnet"
+  default     = "Terraform-public-subnet-assessment3"
 }
 variable "availability_zone" {
   description = "Availability zone for the subnet"
