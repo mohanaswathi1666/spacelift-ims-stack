@@ -93,7 +93,8 @@ resource "aws_s3_bucket" "terraform_bucket" {
   }
 }
 
-_id" {
+# Output values
+output "vpc_id" {
   value = aws_vpc.main_vpc.id
 }
 
