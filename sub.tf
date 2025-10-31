@@ -13,7 +13,7 @@ variable "vpc_cidr" {
 variable "vpc_name" {
   description = "Name of the VPC"
   type        = string
-  default     = "Terraform-VPC"
+  default     = "Spacelift-VPC-assessment3"
 }
 
 variable "subnet_cidr" {
@@ -25,7 +25,7 @@ variable "subnet_cidr" {
 variable "subnet_name" {
   description = "Name of the public subnet"
   type        = string
-  default     = "Terraform-public-subnet"
+  default     = "Spacelift-public-subnet-assessment3"
 }
 
 variable "availability_zone" {
@@ -37,25 +37,25 @@ variable "availability_zone" {
 variable "igw_name" {
   description = "Internet Gateway name"
   type        = string
-  default     = "Terraform-internet-gateway"
+  default     = "Spacelift-internet-gateway-assessment3"
 }
 
 variable "route_table_name" {
   description = "Route table name"
   type        = string
-  default     = "Terraform-route-table"
+  default     = "Spacelift-route-table-assessment3"
 }
 
 variable "bucket_name" {
   description = "S3 bucket name (must be globally unique)"
   type        = string
-  default     = "spacelift-assignment-3-swathi-20251031"
+  default     = "spacelift-assignment-3-swathi-138251"
 }
 
 variable "bucket_tag_name" {
   description = "Name tag for the S3 bucket"
   type        = string
-  default     = "Terraform-S3-bucket"
+  default     = "Spacelift-S3-bucket-assessment3"
 }
 
 variable "environment" {
