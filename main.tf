@@ -85,14 +85,15 @@ resource "aws_security_group" "public_sg" {
 
 # S3 Bucket
 resource "aws_s3_bucket" "terraform_bucket" {
-  bucket        = var.bucket_name
-  force_name
+  bucket = var.bucket_name
+
+  tags = {
+    Name        = var.bucket_tag_name
     Environment = var.environment
   }
 }
 
-# Output values
-output "vpc_id" {
+_id" {
   value = aws_vpc.main_vpc.id
 }
 
