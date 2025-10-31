@@ -6,7 +6,7 @@ variable "aws_region" {
 variable "vpc_cidr" {
   description = "CIDR block for the VPC"
   type        = string
-  default     = "10.0.0.0/16"
+  default     = "10.0.1.0/16"
 }
 variable "vpc_name" {
   description = "Name of the VPC"
@@ -16,7 +16,7 @@ variable "vpc_name" {
 variable "subnet_cidr" {
   description = "CIDR block for the public subnet"
   type        = string
-  default     = "10.0.1.0/24"
+  default     = "10.0.6.0/24"
 }
 variable "subnet_name" {
   description = "Name of the public subnet"
