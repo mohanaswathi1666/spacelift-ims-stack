@@ -78,7 +78,7 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
 
 # RDS Instance (private)
 resource "aws_db_instance" "example_rds" {
-  identifier              = "example-rds"
+  identifier              = "mohanaswathi-assessment4-rds"
   allocated_storage       = 20
   engine                  = "mysql"
   engine_version          = "8.0"
@@ -92,6 +92,6 @@ resource "aws_db_instance" "example_rds" {
   publicly_accessible     = false  #  RDS is now private
 
   tags = {
-    Name = "Example-RDS"
+    Name = "MohanaSwathi-Assessment4-RDS"
   }
 }
