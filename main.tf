@@ -8,7 +8,7 @@ data "aws_vpc" "existing_vpc" {
 
 resource "aws_subnet" "example_subnet" {
   vpc_id            = data.aws_vpc.existing_vpc.id
-  cidr_block        = "10.0.64.0/18"  # Updated to avoid conflict
+  cidr_block        = "10.0.1.0/24"  # Updated to a valid range within 10.0.0.0/16
   availability_zone = "ap-south-1a"
 
   tags = {
