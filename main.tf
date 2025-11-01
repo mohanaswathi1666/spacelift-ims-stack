@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 data "aws_vpc" "existing_vpc" {
-  id = "vpc-082f0bb1c912b8c6a"
+  id = "vpc-014ef1f28181ec49d"
 }
 
 resource "aws_subnet" "example_subnet" {
