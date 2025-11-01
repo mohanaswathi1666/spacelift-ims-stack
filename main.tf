@@ -2,10 +2,12 @@ provider "aws" {
   region = "ap-south-1"
 }
 
+# Get existing VPC
 data "aws_vpc" "existing_vpc" {
   id = "vpc-014ef1f28181ec49d"
 }
 
+# Create a subnet
 resource "aws_subnet" "example_subnet" {
   vpc_id            = data.aws_vpc.existing_vpc.id
   cidr_block        = "10.0.1.0/24"
@@ -16,6 +18,7 @@ resource "aws_subnet" "example_subnet" {
   }
 }
 
+# Create an internet gateway
 resource "aws_internet_gateway" "gw" {
   vpc_id = data.aws_vpc.existing_vpc.id
 
@@ -24,6 +27,7 @@ resource "aws_internet_gateway" "gw" {
   }
 }
 
+# Security group for RDS
 resource "aws_security_group" "rds_sg" {
   name        = "rds-security-group"
   description = "Allow RDS access"
@@ -33,7 +37,7 @@ resource "aws_security_group" "rds_sg" {
     from_port   = 3306
     to_port     = 3306
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # You can restrict this to your IP range
+    cidr_blocks = ["0.0.0.0/0"] # Change to your IP range for security
   }
 
   egress {
@@ -48,6 +52,7 @@ resource "aws_security_group" "rds_sg" {
   }
 }
 
+# Subnet group for RDS
 resource "aws_db_subnet_group" "rds_subnet_group" {
   name       = "rds-subnet-group"
   subnet_ids = [aws_subnet.example_subnet.id]
@@ -57,15 +62,16 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
   }
 }
 
+# RDS instance
 resource "aws_db_instance" "example_rds" {
   identifier              = "example-rds"
   allocated_storage       = 20
   engine                  = "mysql"
   engine_version          = "8.0"
   instance_class          = "db.t3.micro"
-  name                    = "exampledb"
+  db_name                 = "exampledb"
   username                = "admin"
-  password                = "123456789" # Use secrets manager in production
+  password                = "YourSecurePassword123!" # Use Spacelift context or variable in production
   db_subnet_group_name    = aws_db_subnet_group.rds_subnet_group.name
   vpc_security_group_ids  = [aws_security_group.rds_sg.id]
   skip_final_snapshot     = true
