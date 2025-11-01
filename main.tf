@@ -77,7 +77,7 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
 }
 
 # RDS Instance (private)
-resource "aws_db_instance" "example_rds" {
+resource "aws_db_instance" "mohanaswathi_assessment4_rds" {
   identifier              = "mohanaswathi-assessment4-rds"
   allocated_storage       = 20
   engine                  = "mysql"
