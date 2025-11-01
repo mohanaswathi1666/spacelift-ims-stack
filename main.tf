@@ -7,18 +7,29 @@ data "aws_vpc" "existing_vpc" {
   id = "vpc-014ef1f28181ec49d"
 }
 
-# Create a subnet
-resource "aws_subnet" "example_subnet" {
+# Subnet in ap-south-1a
+resource "aws_subnet" "subnet_a" {
   vpc_id            = data.aws_vpc.existing_vpc.id
   cidr_block        = "10.0.1.0/24"
   availability_zone = "ap-south-1a"
 
   tags = {
-    Name = "Example-Subnet"
+    Name = "Example-Subnet-A"
   }
 }
 
-# Create an internet gateway
+# Subnet in ap-south-1b
+resource "aws_subnet" "subnet_b" {
+  vpc_id            = data.aws_vpc.existing_vpc.id
+  cidr_block        = "10.0.2.0/24"
+  availability_zone = "ap-south-1b"
+
+  tags = {
+    Name = "Example-Subnet-B"
+  }
+}
+
+# Internet Gateway
 resource "aws_internet_gateway" "gw" {
   vpc_id = data.aws_vpc.existing_vpc.id
 
@@ -27,7 +38,7 @@ resource "aws_internet_gateway" "gw" {
   }
 }
 
-# Security group for RDS
+# Security Group for RDS
 resource "aws_security_group" "rds_sg" {
   name        = "rds-security-group"
   description = "Allow RDS access"
@@ -37,7 +48,7 @@ resource "aws_security_group" "rds_sg" {
     from_port   = 3306
     to_port     = 3306
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # Change to your IP range for security
+    cidr_blocks = ["0.0.0.0/0"] # Replace with your IP range for security
   }
 
   egress {
@@ -52,17 +63,20 @@ resource "aws_security_group" "rds_sg" {
   }
 }
 
-# Subnet group for RDS
+# Subnet Group for RDS (must span 2 AZs)
 resource "aws_db_subnet_group" "rds_subnet_group" {
   name       = "rds-subnet-group"
-  subnet_ids = [aws_subnet.example_subnet.id]
+  subnet_ids = [
+    aws_subnet.subnet_a.id,
+    aws_subnet.subnet_b.id
+  ]
 
   tags = {
     Name = "RDS Subnet Group"
   }
 }
 
-# RDS instance
+# RDS Instance
 resource "aws_db_instance" "example_rds" {
   identifier              = "example-rds"
   allocated_storage       = 20
@@ -71,7 +85,7 @@ resource "aws_db_instance" "example_rds" {
   instance_class          = "db.t3.micro"
   db_name                 = "exampledb"
   username                = "admin"
-  password                = "YourSecurePassword123!" # Use Spacelift context or variable in production
+  password                = "1234567890" # Use Spacelift context or variable in production
   db_subnet_group_name    = aws_db_subnet_group.rds_subnet_group.name
   vpc_security_group_ids  = [aws_security_group.rds_sg.id]
   skip_final_snapshot     = true
