@@ -10,7 +10,7 @@ data "aws_vpc" "existing_vpc" {
 # Subnet in ap-south-1a
 resource "aws_subnet" "subnet_a" {
   vpc_id            = data.aws_vpc.existing_vpc.id
-  cidr_block        = "10.0.6.0/24"
+  cidr_block        = "10.0.3.0/24"
   availability_zone = "ap-south-1a"
 
   tags = {
@@ -76,7 +76,7 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
   }
 }
 
-# RDS Instance
+# RDS Instance (private)
 resource "aws_db_instance" "example_rds" {
   identifier              = "example-rds"
   allocated_storage       = 20
@@ -85,11 +85,11 @@ resource "aws_db_instance" "example_rds" {
   instance_class          = "db.t3.micro"
   db_name                 = "exampledb"
   username                = "admin"
-  password                = "1234567890" # Use Spacelift context or variable in production
+  password                = "YourSecurePassword123!" # Use Spacelift context or variable in production
   db_subnet_group_name    = aws_db_subnet_group.rds_subnet_group.name
   vpc_security_group_ids  = [aws_security_group.rds_sg.id]
   skip_final_snapshot     = true
-  publicly_accessible     = true
+  publicly_accessible     = false  #  RDS is now private
 
   tags = {
     Name = "Example-RDS"
